@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+
+  db: 
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: algamoney
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3305:3306
