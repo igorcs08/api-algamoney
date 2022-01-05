@@ -16,26 +16,16 @@ public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
+
     @NotNull
     @Size(max = 50)
     private String nome;
+
     @Embedded
     private Endereco endereco;
+
     @NotNull
     private Boolean ativo;
-
-    public Pessoa(Long codigo, @NotNull String nome, @NotNull Boolean ativo) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.ativo = ativo;
-    }
-
-    public Pessoa(Long codigo, @NotNull String nome, Endereco endereco, @NotNull Boolean ativo) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.ativo = ativo;
-    }
 
     public Long getCodigo() {
         return codigo;
