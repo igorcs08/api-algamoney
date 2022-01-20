@@ -65,7 +65,7 @@ public class AuthorizationServerConfig {
         .scope("read")
         .scope("write")
         .tokenSettings(TokenSettings.builder()
-            .accessTokenTimeToLive(Duration.ofMinutes(30))
+            .accessTokenTimeToLive(Duration.ofDays(1))
             .refreshTokenTimeToLive(Duration.ofDays(24))
             .build())
         .clientSettings(ClientSettings.builder()
