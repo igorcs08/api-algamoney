@@ -1,5 +1,7 @@
 package com.algaworks.algamoney.api.config;
 
+import java.io.InputStream;
+import java.security.KeyStore;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -10,9 +12,7 @@ import com.algaworks.algamoney.api.config.property.AlgamoneyApiProperty;
 import com.algaworks.algamoney.api.security.UsuarioSistema;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -121,13 +122,18 @@ public class AuthorizationServerConfig {
   }
 
   @Bean
-  public JWKSet jwkSet() throws JOSEException {
-    RSAKey rsa = new RSAKeyGenerator(2048)
-        .keyUse(KeyUse.SIGNATURE)
-        .keyID(UUID.randomUUID().toString())
-        .generate();
+  public JWKSet jwkSet() throws Exception {
+    final InputStream inputStream = new ClassPathResource("keystore/algamoney.jks").getInputStream();
 
-    return new JWKSet(rsa);
+    final KeyStore keyStore = KeyStore.getInstance("JKS");
+    keyStore.load(inputStream, "123456".toCharArray());
+
+    RSAKey rsaKey = RSAKey.load(
+        keyStore,
+        "algamoney",
+        "123456".toCharArray());
+        
+    return new JWKSet(rsaKey);
   }
 
   @Bean
