@@ -53,6 +53,7 @@ public class LancamentoResource {
   private MessageSource messageSource;
 
   @GetMapping
+  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
   public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
     return lancamentoRepository.filtrar(lancamentoFilter, pageable);
   }
@@ -64,12 +65,14 @@ public class LancamentoResource {
   }
 
   @GetMapping("/{codigo}")
+  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
   public ResponseEntity<Lancamento> buscarPeloCodigo(@PathVariable Long codigo) {
     Optional<Lancamento> lancamento = lancamentoRepository.findById(codigo);
     return !lancamento.isEmpty() ? ResponseEntity.ok(lancamento.get()) : ResponseEntity.notFound().build();
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
   public ResponseEntity<Lancamento> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse response) {
     Lancamento lancamentoSalvo = lancamentoService.salvar(lancamento);
 
@@ -79,6 +82,7 @@ public class LancamentoResource {
   }
 
   @DeleteMapping("/{codigo}")
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void remover(@PathVariable Long codigo) {
     this.lancamentoRepository.deleteById(codigo);
@@ -86,7 +90,7 @@ public class LancamentoResource {
 
   @PutMapping("/{codigo}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO')")
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
   public ResponseEntity<Lancamento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Lancamento lancamento) {
     try {
       Lancamento lancamentoSalvo = lancamentoService.atualizar(codigo, lancamento);

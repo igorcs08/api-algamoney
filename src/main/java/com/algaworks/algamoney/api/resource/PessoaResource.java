@@ -42,12 +42,13 @@ public class PessoaResource {
   private ApplicationEventPublisher publisher;
 
   @GetMapping
-  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
+  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
   public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
     return pessoaRepository.findByNomeContaining(nome, pageable);
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
   public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {
     Pessoa pessoaSalva = pessoaRepository.save(pessoa);
     publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getCodigo()));
@@ -55,24 +56,28 @@ public class PessoaResource {
   }
 
   @GetMapping("/{codigo}")
+  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
   public ResponseEntity<Pessoa> buscarPeloCodigo(@PathVariable Long codigo) {
     Optional<Pessoa> pessoa = pessoaRepository.findById(codigo);
     return !pessoa.isEmpty() ? ResponseEntity.ok(pessoa.get()) : ResponseEntity.notFound().build();
   }
 
   @DeleteMapping("/{codigo}")
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void remover(@PathVariable Long codigo) {
     this.pessoaRepository.deleteById(codigo);
   }
 
   @PutMapping("/{codigo}")
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
   public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa) {
     Pessoa pessoaSalva = pessoaService.atualizar(codigo, pessoa);
     return ResponseEntity.ok(pessoaSalva);
   }
 
   @PutMapping("/{codigo}/ativo")
+  @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
     pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
