@@ -15,144 +15,140 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
-@Table(name="lancamento")
+@Table(name = "lancamento")
 public class Lancamento {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long codigo;
 
-    @NotNull
-    private String descricao;
+  @NotNull
+  private String descricao;
 
-    @NotNull
-    @Column(name="data_vencimento")
-    // @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataVencimento;
-    
-    @Column(name="data_pagamento")
-    // @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataPagamento;
+  @NotNull
+  @Column(name = "data_vencimento")
+  // @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate dataVencimento;
 
-    @NotNull
-    private BigDecimal valor;
+  @Column(name = "data_pagamento")
+  // @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate dataPagamento;
 
-    private String observacao;
+  @NotNull
+  private BigDecimal valor;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private TipoLancamento tipo;
+  private String observacao;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name="codigo_categoria")
-    private Categoria categoria;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private TipoLancamento tipo;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name="codigo_pessoa")
-    private Pessoa pessoa;
+  @NotNull
+  @ManyToOne
+  @JoinColumn(name = "codigo_categoria")
+  private Categoria categoria;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+  @NotNull
+  @ManyToOne
+  @JoinColumn(name = "codigo_pessoa")
+  private Pessoa pessoa;
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+  public Long getCodigo() {
+    return codigo;
+  }
 
-    public String getDescricao() {
-        return descricao;
-    }
+  public void setCodigo(Long codigo) {
+    this.codigo = codigo;
+  }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+  public String getDescricao() {
+    return descricao;
+  }
 
-    public LocalDate getDataVencimento() {
-        return dataVencimento;
-    }
+  public void setDescricao(String descricao) {
+    this.descricao = descricao;
+  }
 
-    public void setDataVencimento(LocalDate dataVencimento) {
-        this.dataVencimento = dataVencimento;
-    }
+  public LocalDate getDataVencimento() {
+    return dataVencimento;
+  }
 
-    public LocalDate getDataPagamento() {
-        return dataPagamento;
-    }
+  public void setDataVencimento(LocalDate dataVencimento) {
+    this.dataVencimento = dataVencimento;
+  }
 
-    public void setDataPagamento(LocalDate dataPagamento) {
-        this.dataPagamento = dataPagamento;
-    }
+  public LocalDate getDataPagamento() {
+    return dataPagamento;
+  }
 
-    public BigDecimal getValor() {
-        return valor;
-    }
+  public void setDataPagamento(LocalDate dataPagamento) {
+    this.dataPagamento = dataPagamento;
+  }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
+  public BigDecimal getValor() {
+    return valor;
+  }
 
-    public String getObservacao() {
-        return observacao;
-    }
+  public void setValor(BigDecimal valor) {
+    this.valor = valor;
+  }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
+  public String getObservacao() {
+    return observacao;
+  }
 
-    public TipoLancamento getTipo() {
-        return tipo;
-    }
+  public void setObservacao(String observacao) {
+    this.observacao = observacao;
+  }
 
-    public void setTipo(TipoLancamento tipo) {
-        this.tipo = tipo;
-    }
+  public TipoLancamento getTipo() {
+    return tipo;
+  }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
+  public void setTipo(TipoLancamento tipo) {
+    this.tipo = tipo;
+  }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
+  public Categoria getCategoria() {
+    return categoria;
+  }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
+  public void setCategoria(Categoria categoria) {
+    this.categoria = categoria;
+  }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
+  public Pessoa getPessoa() {
+    return pessoa;
+  }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-        return result;
-    }
+  public void setPessoa(Pessoa pessoa) {
+    this.pessoa = pessoa;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Lancamento other = (Lancamento) obj;
-        if (codigo == null) {
-            if (other.codigo != null)
-                return false;
-        } else if (!codigo.equals(other.codigo))
-            return false;
-        return true;
-    }
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+    return result;
+  }
 
-    
-    
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Lancamento other = (Lancamento) obj;
+    if (codigo == null) {
+      if (other.codigo != null)
+        return false;
+    } else if (!codigo.equals(other.codigo))
+      return false;
+    return true;
+  }
+
 }

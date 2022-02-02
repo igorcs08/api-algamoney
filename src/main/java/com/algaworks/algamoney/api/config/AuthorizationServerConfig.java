@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import com.algaworks.algamoney.api.config.property.AlgamoneyApiProperty;
 import com.algaworks.algamoney.api.security.UsuarioSistema;
-import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -132,7 +131,7 @@ public class AuthorizationServerConfig {
         keyStore,
         "algamoney",
         "123456".toCharArray());
-        
+
     return new JWKSet(rsaKey);
   }
 
